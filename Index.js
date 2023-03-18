@@ -2,50 +2,69 @@
 <html>
 
 <head>
- <meta charset="utf-8">
- <title>GameVerse Official Website</title>
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
- <!-- Optional Bootstrap theme -->
- <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
-
- <style type="text/css">
-  body {
-   position: relative;
-   /* required */
-   padding-top: 70px;
-   /* prevent content to go underneath the fixed navbar */
-  }
  </style>
 
-</head>
-
-<body data-spy="scroll" data-target="#myNavbar" data-offset="70">
- <nav id="myNavbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-   <!-- Brand and toggle get grouped for better mobile display -->
-   <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse"> 
-                    <span class="sr-only">Toggle navigation</span> 
-                    <span class="icon-bar"></span> 
-                    <span class="icon-bar"></span> 
-                    <span class="icon-bar"></span> 
-                </button>
-    <a class="navbar-brand" href="#">GameVerse</a>
-   </div>
-   <!-- Collect the nav links, forms, and other content for toggling -->
+</div>
+<h1><p style="text-align: center"> GameVerse </p></h1>
    <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="nav navbar-nav">
-     <li class="active"><a href="#About">About me</a></li>
-     <li><a href="#Links">Download links</a></li>
+
+<Html>   
+<Head>
+<style type=text/css> 
+body 
+{
+height: 125vh;
+margin-top: 80px;
+padding: 30px;
+background-size: cover;
+font-family: sans-serif;
+}
+header {
+background-color: Black;
+position: fixed;
+left: 0;
+right: 0;
+top: 5px;
+height: 40px;
+display: flex;
+align-items: center;
+box-shadow: 0 0 25px 0 black;
+}
+header * {
+display: inline;
+}
+header li {
+margin: 20px;
+}
+header li a {
+color: white;
+text-decoration: none;
+}
+</style> 
+</Head>
+<Body> 
+<header>
+<nav>
+<ul>
+<h4><li class="active"><a href="#About">About</a></li>
+     <li><a href="#Links">links</a></li>
      <li><a href="#Videos">Videos</a></li>
-     <li><a href="#Contact">Contact</a></li>
+</li>
+<li>
+</ul>
+</nav>
+</header>
+</Body> 
+</Html>
+
+ 
+
     </ul>
    </div>
   </div>
  </nav>
  <div class="container">
-  <h1>GameVerse</h1>
   <p class="lead"><i>GameVerse is a website dedicated to all things gaming, providing gamers with the latest news, reviews, and insights on the video game industry. From console games to PC games, mobile games to virtual reality experiences, GameVerse covers it all. Whether you're a casual gamer or a hardcore enthusiast, GameVerse has something for you. With a team of passionate writers and gamers, we strive to bring you the most informative and entertaining content on the web. Join us on GameVerse and stay up-to-date with the latest in the world of gaming.</i></p>
   <div id="About">
    <h2>About me</h2>
@@ -99,7 +118,7 @@
     <h4><a href="https://youtu.be/ozm4z-Nlwx4" target="_blank">I met famous KY BMGO on bedwars 😲😲😲</a></h4>
     <h4><a href="https://youtu.be/sN76O7-thVo" target="_blank">Hackers in Bedwars 🥺🥺</a></h4>
     <h4><a href="https://youtu.be/oVEmzI9D9Vg" target="_blank">How to get rich skin for free in Blockman GO</a></h4>
-<h4><a href="https://youtube.com/@PixelPlayzzBG" target="_blank">Watch more video from here!</a></h4>
+<h4><a href="https://youtube.com/@PixelPlayzzBG" target="_blank">Click watch more videos!</a></h4>
    <div id="Contact">
     <h4>Contact</h4>
      <p>Gmail: ariaansafwan12@gmail.com</p>
