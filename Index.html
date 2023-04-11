@@ -1,82 +1,128 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Blue Bird</title>
+	<title>BG hacking</title>
 	<style>
 		body {
-			font-family: Arial, sans-serif;
-			background-color: #f5f5f5;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			background-color: #f9f9f9;
+			margin: 0;
+			padding: 0;
 		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 40px 20px;
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+		}
+
 		h1 {
 			text-align: center;
-			margin-top: 50px;
 			color: #333;
+			margin-bottom: 30px;
 		}
-		form {
-			margin-top: 50px;
-			text-align: center;
-		}
-		label {
-			font-size: 20px;
-			color: #333;
-			display: block;
+
+		p {
+			color: #555;
 			margin-bottom: 10px;
 		}
+
 		input[type="text"] {
-			font-size: 18px;
 			padding: 10px;
+			font-size: 18px;
 			border-radius: 5px;
 			border: 1px solid #ccc;
-			width: 250px;
+			width: 100%;
 			margin-bottom: 20px;
 			box-sizing: border-box;
 		}
+
 		button {
-			font-size: 18px;
-			padding: 10px 20px;
-			border-radius: 5px;
 			background-color: #4CAF50;
 			color: #fff;
 			border: none;
+			border-radius: 5px;
+			padding: 10px 20px;
+			font-size: 18px;
 			cursor: pointer;
+			transition: background-color 0.3s ease;
+			margin-bottom: 20px;
+			display: block;
+			margin: 0 auto;
+			max-width: 200px;
 		}
+
 		button:hover {
 			background-color: #3e8e41;
 		}
+
 		.output {
-			font-size: 20px;
-			margin-top: 20px;
-			color: #333;
+			background-color: #eee;
+			padding: 10px;
+			border-radius: 5px;
+			margin-bottom: 40px;
+		}
+
+		.remove-msg {
+			background-color: #4CAF50;
+			color: #fff;
+			padding: 10px;
+			border-radius: 5px;
 			text-align: center;
+			margin-bottom: 40px;
+			/* Add gap between button and message */
+			margin-top: 40px;
+		}
+
+		/* Add gap between output and button */
+		button + .output {
+			margin-top: 40px;
 		}
 	</style>
 	<script>
-		function mapValues(inputValue) {
-			var outputValue = "";
-			switch(inputValue) {
-				case "2152313968":
-					outputValue = "EshBMGO1234";
+		function showOutput() {
+			var input = document.getElementById("input").value;
+			var output;
+
+			switch (input) {
+				case "2322090734":
+					output = "ABCD5678";
 					break;
-				case "2404093056":
-					outputValue = "GGgames?";
+				case "5678":
+					output = "efgh";
 					break;
-				case "2313846958":
-					outputValue = "EFGklo7";
+				case "9876":
+					output = "ijkl";
 					break;
 				default:
-					outputValue = "Unknown input value!";
+					output = "The UID doesn't exist";
+					break;
 			}
-			document.getElementById("output").innerHTML = outputValue;
+
+			document.getElementById("output").innerHTML = output;
+		}
+
+		function removeMailbox() {
+			document.getElementById("remove-msg").innerHTML = "Successfully removed!";
 		}
 	</script>
 </head>
 <body>
-	<h1>Blue Bird Hack</h1>
-	<form>
-		<label for="inputValue">Enter BG UID</label>
-		<input type="text" id="inputValue" name="inputValue">
-		<button type="button" onclick="mapValues(document.getElementById('inputValue').value)">Get Password</button>
+	<div class="container">
+		<h1>Blue Bird Hacks</h1>
+
+		<p>Enter BG UID</p>
+		<input type="text" id="input">
+		<button onclick="showOutput()">Get Password</button>
+
 		<div class="output" id="output"></div>
-	</form>
+
+		<button onclick="removeMailbox()">Remove Security</button>
+
+		<p class="remove-msg" id="remove-msg"></p>
+	</div>
 </body>
 </html>
