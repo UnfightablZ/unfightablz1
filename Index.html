@@ -3,75 +3,69 @@
 <head>
     <title>Chat Website</title>
     <style>
+        /* Your CSS styles here */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
         }
 
         .chat-container {
-            max-width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 10px;
-            background-color: #fff;
+            display: none;
         }
 
         .message {
             margin-bottom: 10px;
-            padding: 8px 12px;
+            padding: 10px;
             border-radius: 5px;
-            max-width: 80%;
-            word-wrap: break-word;
         }
 
-        .message.sender {
-            align-self: flex-end;
+        .sender {
             background-color: #DCF8C6;
-            color: #333;
+            align-self: flex-end;
         }
 
-        .message.received {
+        .received {
+            background-color: #F1F0F0;
             align-self: flex-start;
-            background-color: #EDEFF1;
-            color: #333;
         }
 
-        .message .content {
+        .content {
             font-size: 14px;
         }
 
         .input-container {
             display: flex;
-            align-items: center;
-            padding: 10px;
-            background-color: #f9f9f9;
+            margin-top: 10px;
         }
 
         #message-input {
             flex: 1;
-            padding: 8px;
-            border: none;
+            padding: 5px;
             border-radius: 5px;
-            margin-right: 10px;
-            background-color: #fff;
+            border: 1px solid #ccc;
+            font-size: 14px;
         }
 
         #send-btn {
-            padding: 8px 20px;
+            padding: 5px 10px;
+            margin-left: 5px;
             background-color: #4CAF50;
-            border: none;
             color: #fff;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="chat-container">
+    <div id="name-container">
+        <h2>Enter Your Name:</h2>
+        <input type="text" id="name-input" placeholder="Your Name">
+        <button id="name-submit">Submit</button>
+    </div>
+
+    <div class="chat-container" id="chat-container">
         <div id="chat-area"></div>
         <div class="input-container">
             <input type="text" id="message-input" placeholder="Type a message...">
@@ -79,10 +73,11 @@
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js"></script>
     <script>
-    var firebaseConfig = {
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
     apiKey: "AIzaSyDkVoiSS1BBVDjStTZnjCc8qV2o-JFXwJY",
     authDomain: "chat-a3ae5.firebaseapp.com",
     databaseURL: "https://chat-a3ae5-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -95,21 +90,48 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
+        var nameContainer = document.getElementById("name-container");
+        var nameInput = document.getElementById("name-input");
+        var nameSubmit = document.getElementById("name-submit");
+        var chatContainer = document.getElementById("chat-container");
         var messageInput = document.getElementById("message-input");
         var sendButton = document.getElementById("send-btn");
         var chatArea = document.getElementById("chat-area");
 
-        var messagesRef = firebase.database().ref("messages");
+        var messagesRef;
+        var name;
 
-        var name = localStorage.getItem("chatName");
+        nameSubmit.addEventListener("click", function() {
+            name = nameInput.value.trim();
+            if (name !== "") {
+                nameContainer.style.display = "none";
+                chatContainer.style.display = "block";
+                messagesRef = firebase.database().ref("messages/" + name);
+                loadMessages();
+            }
+        });
 
-        if (!name) {
-            name = prompt("Please enter your name:");
-            localStorage.setItem("chatName", name);
+        function loadMessages() {
+            messagesRef.on("child_added", function(snapshot) {
+                var messageData = snapshot.val();
+                var messageElement = document.createElement("div");
+                messageElement.className = "message";
+                if (messageData.name === name) {
+                    messageElement.classList.add("sender");
+                } else {
+                    messageElement.classList.add("received");
+                }
+                var messageContent = document.createElement("div");
+                messageContent.className = "content";
+                messageContent.textContent = messageData.message;
+                messageElement.appendChild(messageContent);
+                chatArea.appendChild(messageElement);
+                chatArea.scrollTop = chatArea.scrollHeight;
+            });
         }
 
         sendButton.addEventListener("click", function() {
-            var message = messageInput.value;
+            var message = messageInput.value.trim();
             if (message !== "") {
                 messagesRef.push().set({
                     name: name,
@@ -124,23 +146,6 @@
                 event.preventDefault();
                 sendButton.click();
             }
-        });
-
-        messagesRef.on("child_added", function(snapshot) {
-            var messageData = snapshot.val();
-            var messageElement = document.createElement("div");
-            messageElement.className = "message";
-            if (messageData.name === name) {
-                messageElement.classList.add("sender");
-            } else {
-                messageElement.classList.add("received");
-            }
-            var messageContent = document.createElement("div");
-            messageContent.className = "content";
-            messageContent.textContent = messageData.message;
-            messageElement.appendChild(messageContent);
-            chatArea.appendChild(messageElement);
-            chatArea.scrollTop = chatArea.scrollHeight;
         });
     </script>
 </body>
