@@ -1,20 +1,146 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Server Opening</title>
+<head>
+    <title>Chat Website</title>
     <style>
-      /* Style the box */
-      .box {
-        background-color: #f2f2f2;
-        border: 1px solid black;
-        padding: 20px;
-        text-align: center;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .chat-container {
+            max-width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.sender {
+            align-self: flex-end;
+            background-color: #DCF8C6;
+            color: #333;
+        }
+
+        .message.received {
+            align-self: flex-start;
+            background-color: #EDEFF1;
+            color: #333;
+        }
+
+        .message .content {
+            font-size: 14px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        #message-input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            background-color: #fff;
+        }
+
+        #send-btn {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
-  </head>
-  <body>
-    <div class="box">
-      <h1>The server will be open on 1k subscribers</h1>
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chat-area"></div>
+        <div class="input-container">
+            <input type="text" id="message-input" placeholder="Type a message...">
+            <button id="send-btn">Send</button>
+        </div>
     </div>
-  </body>
+
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+    <script>
+        var firebaseConfig = {
+            // Replace with your Firebase configuration
+         apiKey: "AIzaSyAB3H74F6WJJqQx8G2_wK52tScHNehbPg4",
+  authDomain: "chat-website-35864.firebaseapp.com",
+  projectId: "chat-website-35864",
+  storageBucket: "chat-website-35864.appspot.com",
+  messagingSenderId: "460968332093",
+  appId: "1:460968332093:web:dd94d09299ac7199f0d354",
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var messageInput = document.getElementById("message-input");
+        var sendButton = document.getElementById("send-btn");
+        var chatArea = document.getElementById("chat-area");
+
+        var messagesRef = firebase.database().ref("messages");
+
+        var name = localStorage.getItem("chatName");
+
+        if (!name) {
+            name = prompt("Please enter your name:");
+            localStorage.setItem("chatName", name);
+        }
+
+        sendButton.addEventListener("click", function() {
+            var message = messageInput.value;
+            if (message !== "") {
+                messagesRef.push().set({
+                    name: name,
+                    message: message
+                });
+                messageInput.value = "";
+            }
+        });
+
+        messageInput.addEventListener("keydown", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                sendButton.click();
+            }
+        });
+
+        messagesRef.on("child_added", function(snapshot) {
+            var messageData = snapshot.val();
+            var messageElement = document.createElement("div");
+            messageElement.className = "message";
+            if (messageData.name === name) {
+                messageElement.classList.add("sender");
+            } else {
+                messageElement.classList.add("received");
+            }
+            var messageContent = document.createElement("div");
+            messageContent.className = "content";
+            messageContent.textContent = messageData.message;
+            messageElement.appendChild(messageContent);
+            chatArea.appendChild(messageElement);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        });
+    </script>
+</body>
 </html>
