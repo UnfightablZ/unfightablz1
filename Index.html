@@ -14,9 +14,8 @@
     }
 
     #chat-container {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -24,49 +23,36 @@
     }
 
     #message-container {
-      max-height: calc(100vh - 150px);
+      max-height: 300px;
       overflow-y: scroll;
-      padding: 10px;
-      box-sizing: border-box;
+      padding: 220px;
     }
 
     .message {
-      display: flex;
-      flex-direction: column;
       margin-bottom: 10px;
     }
 
     .sender {
       font-weight: bold;
       color: #075e54;
-      margin-bottom: 5px;
     }
 
     .message-text {
       display: inline-block;
       padding: 8px;
       border-radius: 10px;
+      background-color: #DCF8C6;
+      color: #333;
       word-break: break-word;
     }
 
     .user-message {
-      align-self: flex-end;
-      background-color: #DCF8C6;
-      color: #333;
-      margin-right: 20px;
+      text-align: right;
     }
 
-    .other-message {
-      align-self: flex-start;
+    .user-message .message-text {
       background-color: #E2F3FF;
       color: #075e54;
-    }
-
-    .delete-button {
-      align-self: flex-end;
-      margin-left: 5px;
-      color: #888;
-      cursor: pointer;
     }
 
     #message-input {
@@ -103,11 +89,13 @@
   </style>
 </head>
 <body>
-  <div id="message-container"></div>
   <div id="chat-container">
-    <input type="text" id="name-input" placeholder="Your Name" />
-    <textarea id="message-input" placeholder="Type your message..."></textarea>
-    <button id="send-button">Send</button>
+    <div id="message-container"></div>
+    <div>
+      <input type="text" id="name-input" placeholder="Your Name" />
+      <textarea id="message-input" placeholder="Type your message..."></textarea>
+      <button id="send-button">Send</button>
+    </div>
   </div>
 
   <script>
@@ -141,8 +129,7 @@
         if (name.trim() !== "" && message.trim() !== "") {
           messagesRef.push({
             name: name,
-            message: message,
-            userId: firebase.auth().currentUser.uid // Add user's unique identifier
+            message: message
           });
 
           messageInput.value = "";
@@ -159,8 +146,6 @@
       // Listen for new messages in the Firebase Realtime Database
       messagesRef.on("child_added", function(snapshot) {
         var message = snapshot.val();
-        var messageId = snapshot.key;
-        var userId = firebase.auth().currentUser.uid; // Get current user's unique identifier
 
         var messageElement = document.createElement("div");
         messageElement.classList.add("message");
@@ -173,33 +158,16 @@
         textElement.classList.add("message-text");
         textElement.textContent = message.message;
 
-        var deleteButton = document.createElement("span");
-        deleteButton.classList.add("delete-button");
-        deleteButton.textContent = "Delete";
-        deleteButton.addEventListener("click", function() {
-          if (message.userId === userId) {
-            deleteMessage(messageId);
-          }
-        });
-
         messageElement.appendChild(senderElement);
         messageElement.appendChild(textElement);
 
-        if (message.userId === userId) {
+        if (message.name === "") {
           messageElement.classList.add("user-message");
-          messageElement.appendChild(deleteButton);
-        } else {
-          messageElement.classList.add("other-message");
         }
 
         messageContainer.appendChild(messageElement);
         messageContainer.scrollTop = messageContainer.scrollHeight;
       });
-
-      // Function to delete a message from the Firebase Realtime Database
-      function deleteMessage(messageId) {
-        messagesRef.child(messageId).remove();
-      }
     });
   </script>
 </body>
