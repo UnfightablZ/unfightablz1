@@ -14,8 +14,9 @@
     }
 
     #chat-container {
-      max-width: 400px;
-      margin: 0 auto;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -23,15 +24,16 @@
     }
 
     #message-container {
-      max-height: 300px;
+      max-height: calc(100vh - 150px);
       overflow-y: scroll;
-      padding: 40px;
+      padding: 10px;
+      box-sizing: border-box;
     }
 
     .message {
-      margin-bottom: 10px;
       display: flex;
       flex-direction: column;
+      margin-bottom: 10px;
     }
 
     .sender {
@@ -48,16 +50,23 @@
     }
 
     .user-message {
-      align-self: flex-start;
+      align-self: flex-end;
       background-color: #DCF8C6;
       color: #333;
-      margin-left: 20px; /* Add a margin to the left */
+      margin-right: 20px;
     }
 
     .other-message {
       align-self: flex-start;
       background-color: #E2F3FF;
       color: #075e54;
+    }
+
+    .delete-button {
+      align-self: flex-end;
+      margin-left: 5px;
+      color: #888;
+      cursor: pointer;
     }
 
     #message-input {
@@ -94,13 +103,11 @@
   </style>
 </head>
 <body>
+  <div id="message-container"></div>
   <div id="chat-container">
-    <div id="message-container"></div>
-    <div>
-      <input type="text" id="name-input" placeholder="Your Name" />
-      <textarea id="message-input" placeholder="Type your message..."></textarea>
-      <button id="send-button">Send</button>
-    </div>
+    <input type="text" id="name-input" placeholder="Your Name" />
+    <textarea id="message-input" placeholder="Type your message..."></textarea>
+    <button id="send-button">Send</button>
   </div>
 
   <script>
@@ -134,7 +141,8 @@
         if (name.trim() !== "" && message.trim() !== "") {
           messagesRef.push({
             name: name,
-            message: message
+            message: message,
+            userId: firebase.auth().currentUser.uid // Add user's unique identifier
           });
 
           messageInput.value = "";
@@ -151,6 +159,8 @@
       // Listen for new messages in the Firebase Realtime Database
       messagesRef.on("child_added", function(snapshot) {
         var message = snapshot.val();
+        var messageId = snapshot.key;
+        var userId = firebase.auth().currentUser.uid; // Get current user's unique identifier
 
         var messageElement = document.createElement("div");
         messageElement.classList.add("message");
@@ -163,11 +173,21 @@
         textElement.classList.add("message-text");
         textElement.textContent = message.message;
 
+        var deleteButton = document.createElement("span");
+        deleteButton.classList.add("delete-button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", function() {
+          if (message.userId === userId) {
+            deleteMessage(messageId);
+          }
+        });
+
         messageElement.appendChild(senderElement);
         messageElement.appendChild(textElement);
 
-        if (message.name === "") {
+        if (message.userId === userId) {
           messageElement.classList.add("user-message");
+          messageElement.appendChild(deleteButton);
         } else {
           messageElement.classList.add("other-message");
         }
@@ -175,6 +195,11 @@
         messageContainer.appendChild(messageElement);
         messageContainer.scrollTop = messageContainer.scrollHeight;
       });
+
+      // Function to delete a message from the Firebase Realtime Database
+      function deleteMessage(messageId) {
+        messagesRef.child(messageId).remove();
+      }
     });
   </script>
 </body>
