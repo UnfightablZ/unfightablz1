@@ -25,32 +25,37 @@
     #message-container {
       max-height: 300px;
       overflow-y: scroll;
-      padding: 220px;
+      padding: 40px;
     }
 
     .message {
       margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
     }
 
     .sender {
       font-weight: bold;
       color: #075e54;
+      margin-bottom: 5px;
     }
 
     .message-text {
       display: inline-block;
       padding: 8px;
       border-radius: 10px;
-      background-color: #DCF8C6;
-      color: #333;
       word-break: break-word;
     }
 
     .user-message {
-      text-align: right;
+      align-self: flex-start;
+      background-color: #DCF8C6;
+      color: #333;
+      margin-left: 20px; /* Add a margin to the left */
     }
 
-    .user-message .message-text {
+    .other-message {
+      align-self: flex-start;
       background-color: #E2F3FF;
       color: #075e54;
     }
@@ -163,6 +168,8 @@
 
         if (message.name === "") {
           messageElement.classList.add("user-message");
+        } else {
+          messageElement.classList.add("other-message");
         }
 
         messageContainer.appendChild(messageElement);
