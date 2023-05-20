@@ -14,8 +14,9 @@
     }
 
     #chat-container {
-      max-width: 400px;
-      margin: 0 auto;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -23,34 +24,40 @@
     }
 
     #message-container {
-      max-height: 300px;
+      max-height: calc(100vh - 150px);
       overflow-y: scroll;
-      padding: 220px;
+      padding: 10px;
+      box-sizing: border-box;
     }
 
     .message {
+      display: flex;
+      flex-direction: column;
       margin-bottom: 10px;
     }
 
     .sender {
       font-weight: bold;
       color: #075e54;
+      margin-bottom: 5px;
     }
 
     .message-text {
       display: inline-block;
       padding: 8px;
       border-radius: 10px;
-      background-color: #DCF8C6;
-      color: #333;
       word-break: break-word;
     }
 
     .user-message {
-      text-align: right;
+      align-self: flex-end;
+      background-color: #DCF8C6;
+      color: #333;
+      margin-right: 20px;
     }
 
-    .user-message .message-text {
+    .other-message {
+      align-self: flex-start;
       background-color: #E2F3FF;
       color: #075e54;
     }
@@ -89,13 +96,11 @@
   </style>
 </head>
 <body>
+  <div id="message-container"></div>
   <div id="chat-container">
-    <div id="message-container"></div>
-    <div>
-      <input type="text" id="name-input" placeholder="Your Name" />
-      <textarea id="message-input" placeholder="Type your message..."></textarea>
-      <button id="send-button">Send</button>
-    </div>
+    <input type="text" id="name-input" placeholder="Your Name" />
+    <textarea id="message-input" placeholder="Type your message..."></textarea>
+    <button id="send-button">Send</button>
   </div>
 
   <script>
@@ -161,8 +166,10 @@
         messageElement.appendChild(senderElement);
         messageElement.appendChild(textElement);
 
-        if (message.name === "") {
+        if (snapshot.key === messagesRef.push().key) {
           messageElement.classList.add("user-message");
+        } else {
+          messageElement.classList.add("other-message");
         }
 
         messageContainer.appendChild(messageElement);
