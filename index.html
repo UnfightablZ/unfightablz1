@@ -1,174 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Chat App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
+<!-- wp:image {"align":"full","id":54,"sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image alignfull size-large"><img src="https://facebox4.files.wordpress.com/2023/11/pexels-photo-3165335-1.jpeg?w=1024" alt="" class="wp-image-54"/></figure>
+<!-- /wp:image -->
 
-    #chat-container {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-    }
+<!-- wp:heading {"textAlign":"center","level":1} -->
+<h1 class="wp-block-heading has-text-align-center">Welcome to Newsify</h1>
+<!-- /wp:heading -->
 
-    #message-container {
-      max-height: 300px;
-      overflow-y: scroll;
-      padding: 220px;
-    }
+<!-- wp:spacer {"height":"30px"} -->
+<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
 
-    .message {
-      margin-bottom: 10px;
-    }
+<!-- wp:heading {"textAlign":"center"} -->
+<h2 class="wp-block-heading has-text-align-center">My Videos</h2>
+<!-- /wp:heading -->
 
-    .sender {
-      font-weight: bold;
-      color: #075e54;
-    }
+<!-- wp:embed {"url":"https://youtu.be/U0b0eH4nN-U?si=ZP72oSBvEVCbB4cy","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
+<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+https://youtu.be/U0b0eH4nN-U?si=ZP72oSBvEVCbB4cy
+</div></figure>
+<!-- /wp:embed -->
 
-    .message-text {
-      display: inline-block;
-      padding: 8px;
-      border-radius: 10px;
-      background-color: #DCF8C6;
-      color: #333;
-      word-break: break-word;
-    }
-
-    .user-message {
-      text-align: right;
-    }
-
-    .user-message .message-text {
-      background-color: #E2F3FF;
-      color: #075e54;
-    }
-
-    #message-input {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-top: 1px solid #ccc;
-      resize: none;
-      outline: none;
-    }
-
-    #name-input {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-bottom: 1px solid #ccc;
-      resize: none;
-      outline: none;
-    }
-
-    #send-button {
-      width: 100%;
-      padding: 10px 20px;
-      background-color: #128C7E;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    #send-button:hover {
-      background-color: #075e54;
-    }
-  </style>
-</head>
-<body>
-  <div id="chat-container">
-    <div id="message-container"></div>
-    <div>
-      <input type="text" id="name-input" placeholder="Your Name" />
-      <textarea id="message-input" placeholder="Type your message..."></textarea>
-      <button id="send-button">Send</button>
-    </div>
-  </div>
-
-  <script>
-    // Initialize Firebase
-    const firebaseConfig = {
-  apiKey: "AIzaSyD4zb77asQkKHftvjyZLV2UqV7HRMQqrwg",
-  authDomain: "chat-project-96063.firebaseapp.com",
-  databaseURL: "https://chat-project-96063-default-rtdb.firebaseio.com",
-  projectId: "chat-project-96063",
-  storageBucket: "chat-project-96063.appspot.com",
-  messagingSenderId: "565201782861",
-  appId: "1:565201782861:web:08ab5e61e1749fb010b404",
-  measurementId: "G-224HKST9VB"
-};
-    firebase.initializeApp(firebaseConfig);
-
-    document.addEventListener("DOMContentLoaded", function() {
-      var messageContainer = document.getElementById("message-container");
-      var messageInput = document.getElementById("message-input");
-      var nameInput = document.getElementById("name-input");
-      var sendButton = document.getElementById("send-button");
-
-      // Get a reference to the Firebase Realtime Database
-      var database = firebase.database();
-      var messagesRef = database.ref("messages");
-
-      sendButton.addEventListener("click", function() {
-        var name = nameInput.value;
-        var message = messageInput.value;
-
-        if (name.trim() !== "" && message.trim() !== "") {
-          messagesRef.push({
-            name: name,
-            message: message
-          });
-
-          messageInput.value = "";
-          messageContainer.scrollTop = messageContainer.scrollHeight;
-        }
-      });
-
-      messageInput.addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-          sendButton.click();
-        }
-      });
-
-      // Listen for new messages in the Firebase Realtime Database
-      messagesRef.on("child_added", function(snapshot) {
-        var message = snapshot.val();
-
-        var messageElement = document.createElement("div");
-        messageElement.classList.add("message");
-
-        var senderElement = document.createElement("span");
-        senderElement.classList.add("sender");
-        senderElement.textContent = message.name;
-
-        var textElement = document.createElement("span");
-        textElement.classList.add("message-text");
-        textElement.textContent = message.message;
-
-        messageElement.appendChild(senderElement);
-        messageElement.appendChild(textElement);
-
-        if (message.name === "") {
-          messageElement.classList.add("user-message");
-        }
-
-        messageContainer.appendChild(messageElement);
-        messageContainer.scrollTop = messageContainer.scrollHeight;
-      });
-    });
-  </script>
-</body>
-</html>
+<!-- wp:paragraph -->
+<p>My video about Bluebird check it out</p>
+<!-- /wp:paragraph -->
