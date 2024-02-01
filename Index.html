@@ -1,174 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blockman GO</title>
-  <style>
-    body {
-      text-align: center;
-      overflow: hidden;
-      margin: 0;
-      background: url('https://i.giphy.com/V4NSR1NG2p0KeJJyr5.webp') fixed;
-      background-size: cover;
-      color: #FFFFFF; /* Set font color to white */
-      font-family: 'Courier New', monospace; /* Hacking-style font */
-    }
-
-    #main-container {
-      position: relative;
-      width: 70%;
-      margin: 50px auto;
-      padding: 20px; /* Padding for the main container */
-      box-sizing: border-box;
-      background: transparent; /* Transparent background for the main container */
-      overflow: hidden; /* Ensure child elements don't overflow */
-    }
-
-    #matrix-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1; /* Send the matrix container to the background */
-    }
-
-    .falling-number {
-      position: absolute;
-      user-select: none;
-      white-space: nowrap;
-      opacity: 0;
-      animation: fall linear infinite;
-    }
-
-    .container {
-      margin-bottom: 20px;
-      background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background for the container */
-      padding: 10px; /* Padding for the container */
-      box-sizing: border-box;
-    }
-
-    input {
-      width: calc(100% - 12px); /* Adjusted width to account for padding and border */
-      margin-bottom: 10px;
-      border: 1px solid #FFFFFF; /* White border around input boxes */
-      background: transparent; /* Transparent background */
-      color: #FFFFFF; /* White font color */
-      padding: 5px; /* Padding for input boxes */
-      box-sizing: border-box;
-    }
-
-    button {
-      width: calc(100% - 12px); /* Adjusted width to account for padding and border */
-      border: 1px solid #FFFFFF; /* White border around the button */
-      background: transparent; /* Transparent background */
-      color: #FFFFFF; /* White font color */
-      padding: 10px; /* Padding for the button */
-      box-sizing: border-box;
-    }
-
-    #bottom-links {
-      margin-top: 20px;
-    }
-
-    #bottom-links a {
-      color: #FFFFFF; /* White color for links */
-      margin: 0 10px;
-      text-decoration: none;
-    }
-  </style>
+	<title>Blockman GO Trader's Community</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+   body {
+   background-color: #673AB7;
+   position: center;
+   padding: 10%;
+   }
+   .notice {
+   text-align: justify;
+   font-weight: bold;
+   }
+   .centered-element {
+   position: absolute;
+   top: 6%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   }
+	 	.box {
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			margin: 20px auto;
+   position: center;
+			width: 300px;
+			max-width: 100%;
+   max-height: 300px;
+   overflow-y: scroll;
+		}
+		
+		.box h2 {
+			text-align: center;
+			margin-bottom: 5px;
+		}
+		.list-item {
+			display: flex;
+			align-items: center;
+			padding: 10px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+  .footer {
+   background-color: #333;
+   color: #fff;
+   padding: 10px;
+   text-align: center;
+   position: absolute;
+   bottom: -18%;
+   width: 70%;
+  }
+    
+		.verified-badge {
+			width: 25px;
+			height: 25px;
+			background-color: #4caf50;
+			border-radius: 50%;
+			margin-right: 10px;
+		}
+		.unverified-badge {
+			width: 25px;
+			height: 25px;
+			background-color: #ccc;
+			border-radius: 50%;
+			margin-right: 10px;
+		}
+		.unsafe-badge {
+			width: 25px;
+			height: 25px;
+			background-color: #ff4d4d;
+			border-radius: 50%;
+			margin-right: 10px;
+		}
+	</style>
 </head>
 <body>
-
-  <h1>Blockman GO</h1>
-
-  <div id="main-container">
-    <div class="container">
-      <div>
-        <label for="message">Write Message</label><br>
-        <input type="text" id="message" name="message">
-      </div>
-
-      <div>
-        <label for="id">Write ID</label><br>
-        <input type="text" id="id" name="id">
-      </div>
-
-      <button type="button" onclick="sendMessage()">Send</button>
-    </div>
-
-    <div id="matrix-container"></div>
-  </div>
-
-  <div id="bottom-links">
-    <a href="https://example.com/id-hack" target="_blank">ID Hack</a>
-    <a href="https://example.com/gcube-generate" target="_blank">Gcube Generate</a>
-    <a href="https://example.com/token-generator" target="_blank">Token Generator</a>
-  </div>
-
-  <script>
-    function sendMessage() {
-      var message = document.getElementById("message").value;
-      var id = document.getElementById("id").value;
-      
-      // Check if both message and ID are not empty
-      if (message && id) {
-        // Display success message
-        alert("Successfully sent!");
-      } else {
-        // Display an error message if either message or ID is empty
-        alert("Please enter both message and ID.");
-      }
-    }
-
-    // Function to generate a random 0 or 1
-    function getRandomBinary() {
-      return Math.round(Math.random());
-    }
-
-    // Function to create a falling number element
-    function createFallingNumber() {
-      const numberElement = document.createElement("div");
-      numberElement.className = "falling-number";
-      numberElement.textContent = getRandomBinary();
-      numberElement.style.left = `${getRandomInt(0, window.innerWidth)}px`;
-      return numberElement;
-    }
-
-    // Function to animate falling numbers
-    function animateFallingNumbers() {
-      const matrixContainer = document.getElementById("matrix-container");
-      const numberCount = 50; // Adjust the number of falling numbers
-      const animationDuration = 5; // Adjust the animation duration
-
-      for (let i = 0; i < numberCount; i++) {
-        const fallingNumber = createFallingNumber();
-        matrixContainer.appendChild(fallingNumber);
-
-        // Set a random animation delay for each falling number
-        fallingNumber.style.animationDelay = `${getRandomInt(0, 5)}s`;
-
-        // Remove the falling number element after the animation duration
-        setTimeout(() => {
-          fallingNumber.remove();
-        }, animationDuration * 1000);
-      }
-    }
-
-    // Trigger the falling numbers animation
-    animateFallingNumbers();
-  </script>
-
-  <style>
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-        opacity: 1;
-      }
-    }
-  </style>
-
+<div class="centered-element">
+  <h2>Blockman GO</h2>
+</div>
+	<div class="box">
+		<h2>User List</h2>
+		<ul class="list-group">
+			<li class="list-item">
+				<span class="verified-badge"></span>
+   	<a href="https://www.facebook.com/NeaAlmuranas" style="text-decoration: none; color: black;">Nea BG</a>
+			</li>
+			<li class="list-item">
+				<span class="verified-badge"></span>
+   	<a href="https://www.facebook.com/S0N.Le" style="text-decoration: none; color: black;">Mark Robert</a>
+			</li>
+			<li class="list-item">
+				<span class="verified-badge"></span>
+   	<a href="https://www.facebook.com/profile.php?id=100078066293085" style="text-decoration: none; color: black;">Kenn Shin</a>
+			</li>
+			<li class="list-item">
+				<span class="verified-badge"></span>
+   	<a href="https://www.facebook.com/acm.mo.teh" style="text-decoration: none; color: black;">Luigie Escasinas</a>
+   <li class="list-item">
+				<span class="verified-badge"></span>
+   	<a href="https://www.facebook.com/jay.shop.666" style="text-decoration: none; color: black;">Jay</a>
+			</li>
+   <li class="list-item">
+				<span class="verified-badge"></span>
+   	<a href="https://www.facebook.com/mariakeith.dimandan" style="text-decoration: none; color: black;">Maria Dimandan</a>
+			</li>
+   <li class="list-item">
+				<span class="verified-badge"></span>
+   	<a href="https://www.facebook.com/profile.php?id=100088911867672" style="text-decoration: none; color: black;">Moon Child</a>
+			</li>
+   <li class="list-item">
+				<span class="unsafe-badge"></span>
+   	<a href="https://www.facebook.com/profile.php?id=100090566874031" style="text-decoration: none; color: black;">Xii Len</a>
+			</li>
+			</li>
+ 	</ul>
+	</div>
+<div class="notice">
+<p>We have compiled a list of traders for your convenience. Please note that we cannot guarantee the legitimacy of any trader on this list. It is your responsibility to do your own research and due diligence before engaging with any trader. Traders will be marked in the following colors to indicate their verification status: Green - Verified, Gray - Not Verified Yet, Red - Danger.</p>
+<p><a href="https://facebook.com/groups/973904530163783/">Click here</a> to join our facebook group. </p>
+</div>
+ <div class="footer">
+		<p><a href="https://www.facebook.com/profile.php?id=100093178727355" style="text-decoration: none; color: white;">Copyright © PixelDev</a></p>
+	</div>
 </body>
 </html>
