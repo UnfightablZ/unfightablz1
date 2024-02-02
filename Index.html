@@ -59,32 +59,43 @@
         }
 
         .navbar {
-            background-color: #333;
-            overflow: hidden;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            z-index: 2;
-        }
+    background-color: #333;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
 
-        .navbar h2 {
-            float: left;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            margin: 0;
-        }
+.navbar img {
+    height: 40px; /* Adjust the height as needed */
+    margin-left: 10px; /* Add margin to the left of the logo */
+    border-radius: 5px; /* Add border-radius for a little curve */
+}
 
-        .navbar button {
-            float: right;
-            background-color: transparent;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 10px;
-        }
+.navbar h2 {
+    flex: 1; /* Allow the title to take up remaining space */
+    color: white;
+    text-align: left; /* Align the title to the left */
+    padding: 14px 16px;
+    margin: 0;
+}
+
+.navbar button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 10px; /* Add margin to the right of the button */
+}
+
+
+
 
         .centered-element {
             margin-top: 50px;
@@ -133,31 +144,31 @@
             margin-right: 10px;
         }
 
-             .verified-badge {
-        width: 25px;
-        height: 25px;
-        margin-right: 10px;
-        background: url('https://img.icons8.com/?size=96&id=p9jKUHLk5ejE&format=png') no-repeat center center;
-        background-size: contain;
-        background-color: transparent; /* Ensure background is set to transparent */
-    }
+        .verified-badge {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+            background: url('https://img.icons8.com/?size=96&id=p9jKUHLk5ejE&format=png') no-repeat center center;
+            background-size: contain;
+            background-color: transparent; /* Ensure background is set to transparent */
+        }
 
         .unverified-badge {
-          width: 25px;
-        height: 25px;
-        margin-right: 10px;
-        background: url('https://img.icons8.com/?size=100&id=23265&format=png') no-repeat center center;
-        background-size: contain;
-        background-color: transparent;
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+            background: url('https://img.icons8.com/?size=100&id=23265&format=png') no-repeat center center;
+            background-size: contain;
+            background-color: transparent;
         }
 
         .unsafe-badge {
             width: 25px;
-        height: 25px;
-        margin-right: 10px;
-        background: url('https://img.icons8.com/?size=96&id=eXZFp2e0w8EX&format=png') no-repeat center center;
-        background-size: contain;
-        background-color: transparent;
+            height: 25px;
+            margin-right: 10px;
+            background: url('https://img.icons8.com/?size=96&id=eXZFp2e0w8EX&format=png') no-repeat center center;
+            background-size: contain;
+            background-color: transparent;
         }
     </style>
 </head>
@@ -169,16 +180,18 @@
         <a href="#">Donate</a>
     </div>
     <div class="centered-element"> 
-</div>
+    </div>
     <div id="main">
         <div class="navbar">
+            <img src="https://cdn.moogold.com/2022/10/block-man-go-logo.jpg" alt="Blockman GO Logo">
             <h2>Blockman GO</h2>
             <button class="navbar-button" onclick="openNav()">☰</button>
-            </div>
+        </div>
         <div class="box">
             <h2>Trader List</h2>
             <ul class="list-group">
-                		<li class="list-item">
+                <li class="list-item">
+                    <li class="list-item">
 				<span class="verified-badge"></span>
    	<a href="https://www.facebook.com/NeaAlmuranas" style="text-decoration: none; color: black;">Nea BG</a>
 			</li>
